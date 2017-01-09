@@ -138,12 +138,12 @@ for jfits in xrange(N_fits):
 				        if (mdy_pore_extract[jsame] == mdy_sphere_extract):
 				            if (mdx_pore_extract[jsame] == mdx_sphere_extract):
 				                 vecEventIDOut.append(evt_id_pore[jev_pore])
-				                 vecEnergyOut.append(ene_sphere_extract)
-				                 vecMDXOut.append(mdx_sphere_extract)
-				                 vecMDYOut.append(mdy_sphere_extract)
-				                 vecMDZOut.append(mdz_sphere_extract)
-				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract))
-				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
+				                 vecEnergyOut.append(ene_sphere_extract[0])
+				                 vecMDXOut.append(mdx_sphere_extract[0])
+				                 vecMDYOut.append(mdy_sphere_extract[0])
+				                 vecMDZOut.append(mdz_sphere_extract[0])
+				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract[0]))
+				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract[0]))
 		
 		len_same_ev_pore = len(same_ev_pore)
 		last_evt_id = same_ev_pore[len_same_ev_pore - 1]
@@ -154,8 +154,8 @@ for jfits in xrange(N_fits):
 
 print "vecEventIDOut", vecEventIDOut
     		    		
-# SPHERE
 N_out = len(vecEnergyOut)
+
 
 print "Real number of protons entering the pore = ", N_in_real
 print "Exiting protons/entering protons = ", float(N_out)/float(N_in_real)

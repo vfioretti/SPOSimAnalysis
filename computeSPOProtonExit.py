@@ -165,7 +165,7 @@ print "Real number of protons entering the pore = ", N_in_real
 name_fileout = "./simulation_output/OUTPUT_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".dat"
 print "Writing in "+name_fileout
 f_out = open(name_fileout, 'wb')
-f_out.write("EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] \n)
+f_out.write("EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] \n")
 for iel in xrange(len(vecEventIDOut)):
 	# angle_x err_angle_x Eff err_Eff N_out N_in solid_angle 
 	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+"\n")

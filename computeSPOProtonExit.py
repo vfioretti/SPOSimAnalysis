@@ -43,7 +43,7 @@ filedir = arg_list[1]
 N_fits = int(arg_list[2])
 N_in = int(arg_list[3])
 theta_0 = float(arg_list[4])
-angle_dis = float(arg_list[5])
+angle_dis = int(arg_list[5])
 if (angle_dis == 0): disname = "planar"
 if (angle_dis == 1): disname = "cos"
 energy_0 = float(arg_list[6])
@@ -143,7 +143,7 @@ for jfits in xrange(N_fits):
 				                 vecMDYOut.append(mdy_sphere_extract[0])
 				                 vecMDZOut.append(mdz_sphere_extract[0])
 				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract[0]))
-				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract[0]))
+				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract[0]/mdx_sphere_extract[0]))
 		
 		len_same_ev_pore = len(same_ev_pore)
 		last_evt_id = same_ev_pore[len_same_ev_pore - 1]

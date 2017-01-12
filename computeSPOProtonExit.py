@@ -153,10 +153,10 @@ for jfits in xrange(N_fits):
 		same_ev_exit = np.where(evt_id_exit == evt_id_sphere[jev_sphere])
 		same_ev_pore = np.where(evt_id_pore == evt_id_sphere[jev_sphere])
 		
-		same_ev = same_ev
-		same_ev_ent = same_ev_ent
-		same_ev_exit = same_ev_exit
-		same_ev_pore = same_ev_pore
+		same_ev = same_ev[0]
+		same_ev_ent = same_ev_ent[0]
+		same_ev_exit = same_ev_exit[0]
+		same_ev_pore = same_ev_pore[0]
 		
 		if (same_ev_ent) and (same_ev_exit):
 			ene_ent_extract = ene_ent[same_ev_ent]
@@ -219,9 +219,6 @@ for jfits in xrange(N_fits):
 				                     	   vecX.append(elx[jel])
 				                     	   vecY.append(ely[jel])
 				                     	   vecZ.append(elz[jel])
-				                    #vecX.append([x_ent_extract, x_pore_extract, x_exit_extract, x_sphere_extract])
-				                    #vecY.append([y_ent_extract, y_pore_extract, y_exit_extract, y_sphere_extract])
-				                    #vecZ.append([z_ent_extract, z_pore_extract, z_exit_extract, z_sphere_extract])
 				                 else:
 				                     xlist = [x_ent_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
 				                     ylist = [y_ent_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
@@ -233,10 +230,6 @@ for jfits in xrange(N_fits):
 				                           vecX.append(elx[jel])
 				                     	   vecY.append(elx[jel])
 				                     	   vecZ.append(elx[jel])
-				                     
-				                     #vecX.append([x_ent_extract, x_exit_extract, x_sphere_extract])
-				                     #vecY.append([y_ent_extract, y_exit_extract, y_sphere_extract])
-				                     #vecZ.append([z_ent_extract, z_exit_extract, z_sphere_extract])
 		
 		len_same_ev = len(same_ev)
 		last_evt_id = same_ev[len_same_ev - 1]

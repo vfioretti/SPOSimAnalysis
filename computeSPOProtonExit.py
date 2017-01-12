@@ -53,9 +53,9 @@ HPlate_vol_id_max = 3
 HRib_vol_id_min = 4 
 HRib_vol_id_max = 7 
 
-sphere_vol_id = 10000000
-ent_vol_id = 20000000
-exit_vol_id = 30000000
+sphere_vol_id = 100000
+ent_vol_id = 200000
+exit_vol_id = 300000
 
 
 N_in_real = 0
@@ -83,6 +83,7 @@ for jfits in xrange(N_fits):
     evt_id = tbdata.field('EVT_ID')
     trk_id = tbdata.field('TRK_ID')
     vol_id = tbdata.field('VOLUME_ID')
+    moth_id = tbdata.field('MOTHER_ID')
     ene_ent = tbdata.field('E_KIN_ENT')
     ene_exit = tbdata.field('E_KIN_EXIT')
     MDZ_ent = tbdata.field('MDZ_ENT')
@@ -112,7 +113,7 @@ for jfits in xrange(N_fits):
     y_pore = Y_exit[where_pore]
     x_pore = X_exit[where_pore]
         
-    where_sphere = np.where((vol_id == sphere_vol_id) & (part_id == 2212) & (Z_ent < 0))
+    where_sphere = np.where((vol_id == sphere_vol_id) & (part_id == 2212) & (Z_ent < 0) & (moth_id == 0))
     evt_id_sphere = evt_id[where_sphere]
     ene_sphere = ene_ent[where_sphere]
     mdz_sphere = MDZ_ent[where_sphere]
@@ -122,7 +123,7 @@ for jfits in xrange(N_fits):
     y_sphere = Y_ent[where_sphere]
     x_sphere = X_ent[where_sphere]
 
-    where_ent = np.where((vol_id == ent_vol_id) & (part_id == 2212))
+    where_ent = np.where((vol_id == ent_vol_id) & (part_id == 2212) & (moth_id == 0))
     evt_id_ent = evt_id[where_ent]
     ene_ent = ene_ent[where_ent]
     mdz_ent = MDZ_ent[where_ent]
@@ -135,7 +136,7 @@ for jfits in xrange(N_fits):
     N_in_real += len(evt_id_ent)
 
 
-    where_exit = np.where((vol_id == exit_vol_id) & (part_id == 2212))
+    where_exit = np.where((vol_id == exit_vol_id) & (part_id == 2212) & (moth_id == 0))
     evt_id_exit = evt_id[where_exit]
     ene_exit = ene_exit[where_exit]
     mdz_exit = MDZ_exit[where_exit]

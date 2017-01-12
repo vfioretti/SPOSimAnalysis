@@ -28,14 +28,12 @@
 
 
 
-import pyfits
+from astropy.io import fits
 import numpy as np
 import math
-import sys
+import sys, os
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
-import matplotlib as mpl
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 # Import the input parameters
 arg_list = sys.argv
@@ -56,6 +54,8 @@ HRib_vol_id_min = 4
 HRib_vol_id_max = 7 
 
 sphere_vol_id = 10000000
+ent_vol_id = 20000000
+exit_vol_id = 30000000
 
 
 N_in_real = 0
@@ -67,12 +67,15 @@ vecEnergyOut = []
 vecMDXOut = []
 vecMDYOut = []
 vecMDZOut = []
-
+vecEventXYZ = []
+vecX = []
+vecY = []
+vecZ = []
 
 for jfits in xrange(N_fits):
     
     print '%%%%%%%%%%%%%% READING BoGEMMS FILE: ', jfits+1
-    hdulist = pyfits.open(filedir+'/xyz.'+str(jfits)+'.fits.gz')
+    hdulist = fits.open(filedir+'/xyz.'+str(jfits)+'.fits.gz')
     
     tbdata = hdulist[1].data
     cols = hdulist[1].columns
@@ -105,6 +108,9 @@ for jfits in xrange(N_fits):
     mdz_pore = MDZ_exit[where_pore]
     mdy_pore = MDY_exit[where_pore]
     mdx_pore = MDX_exit[where_pore]
+    z_pore = Z_exit[where_pore]
+    y_pore = Y_exit[where_pore]
+    x_pore = X_exit[where_pore]
         
     where_sphere = np.where((vol_id == sphere_vol_id) & (part_id == 2212) & (Z_ent < 0))
     evt_id_sphere = evt_id[where_sphere]
@@ -112,47 +118,132 @@ for jfits in xrange(N_fits):
     mdz_sphere = MDZ_ent[where_sphere]
     mdy_sphere = MDY_ent[where_sphere]
     mdx_sphere = MDX_ent[where_sphere]
+    z_sphere = Z_ent[where_sphere]
+    y_sphere = Y_ent[where_sphere]
+    x_sphere = X_ent[where_sphere]
 
-    jev_pore = 0
+    where_ent = np.where((vol_id == ent_vol_id) & (part_id == 2212))
+    evt_id_ent = evt_id[where_ent]
+    ene_ent = ene_ent[where_ent]
+    mdz_ent = MDZ_ent[where_ent]
+    mdy_ent = MDY_ent[where_ent]
+    mdx_ent = MDX_ent[where_ent]
+    z_ent = Z_ent[where_ent]
+    y_ent = Y_ent[where_ent]
+    x_ent = X_ent[where_ent]
+
+    N_in_real += len(evt_id_ent)
+
+
+    where_exit = np.where((vol_id == exit_vol_id) & (part_id == 2212))
+    evt_id_exit = evt_id[where_exit]
+    ene_exit = ene_exit[where_exit]
+    mdz_exit = MDZ_exit[where_exit]
+    mdy_exit = MDY_exit[where_exit]
+    mdx_exit = MDX_exit[where_exit]
+    z_exit = Z_exit[where_exit]
+    y_exit = Y_exit[where_exit]
+    x_exit = X_exit[where_exit]
+
+    jev_sphere = 0
     while (1):
-		same_ev = np.where(evt_id_sphere == evt_id_pore[jev_pore])
-		same_ev_pore = np.where(evt_id_pore == evt_id_pore[jev_pore])
-		N_in_real+=1
-		same_ev = same_ev[0]
-		same_ev_pore = same_ev_pore[0]
+		same_ev = np.where(evt_id_sphere == evt_id_sphere[jev_sphere])
+		same_ev_ent = np.where(evt_id_ent == evt_id_sphere[jev_sphere])
+		same_ev_exit = np.where(evt_id_exit == evt_id_sphere[jev_sphere])
+		same_ev_pore = np.where(evt_id_pore == evt_id_sphere[jev_sphere])
 		
-		if (same_ev):
-			ene_pore_extract = ene_pore[same_ev_pore]
-			mdz_pore_extract = mdz_pore[same_ev_pore]
-			mdy_pore_extract = mdy_pore[same_ev_pore]
-			mdx_pore_extract = mdx_pore[same_ev_pore]
+		same_ev = same_ev
+		same_ev_ent = same_ev_ent
+		same_ev_exit = same_ev_exit
+		same_ev_pore = same_ev_pore
 		
-			ene_sphere_extract = ene_sphere[same_ev]
-			mdz_sphere_extract = mdz_sphere[same_ev]
-			mdy_sphere_extract = mdy_sphere[same_ev]
-			mdx_sphere_extract = mdx_sphere[same_ev] 
+		if (same_ev_ent) and (same_ev_exit):
+			ene_ent_extract = ene_ent[same_ev_ent]
+			mdz_ent_extract = mdz_ent[same_ev_ent]
+			mdy_ent_extract = mdy_ent[same_ev_ent]
+			mdx_ent_extract = mdx_ent[same_ev_ent]
+			z_ent_extract = z_ent[same_ev_ent]
+			y_ent_extract = y_ent[same_ev_ent]
+			x_ent_extract = x_ent[same_ev_ent]
+
+			ene_exit_extract = ene_exit[same_ev_exit]
+			mdz_exit_extract = mdz_exit[same_ev_exit]
+			mdy_exit_extract = mdy_exit[same_ev_exit]
+			mdx_exit_extract = mdx_exit[same_ev_exit]
+			z_exit_extract = z_exit[same_ev_exit]
+			y_exit_extract = y_exit[same_ev_exit]
+			x_exit_extract = x_exit[same_ev_exit]
+					
+			ene_sphere_extract = ene_sphere[jev_sphere]
+			mdz_sphere_extract = mdz_sphere[jev_sphere]
+			mdy_sphere_extract = mdy_sphere[jev_sphere]
+			mdx_sphere_extract = mdx_sphere[jev_sphere] 
+			z_sphere_extract = z_sphere[jev_sphere]
+			y_sphere_extract = y_sphere[jev_sphere]
+			x_sphere_extract = x_sphere[jev_sphere] 
 			
-			for jsame in xrange(len(ene_pore_extract)):
-				if (ene_pore_extract[jsame] == ene_sphere_extract):
-				    if (mdz_pore_extract[jsame] == mdz_sphere_extract):
-				        if (mdy_pore_extract[jsame] == mdy_sphere_extract):
-				            if (mdx_pore_extract[jsame] == mdx_sphere_extract):
-				                 vecEventIDOut.append(evt_id_pore[jev_pore])
-				                 vecEnergyOut.append(ene_sphere_extract[0])
-				                 vecMDXOut.append(mdx_sphere_extract[0])
-				                 vecMDYOut.append(mdy_sphere_extract[0])
-				                 vecMDZOut.append(mdz_sphere_extract[0])
-				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract[0]))
-				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract[0]/mdx_sphere_extract[0]))
+			if (len(same_ev_pore)):
+			    ene_pore_extract = ene_pore[same_ev_pore]
+			    mdz_pore_extract = mdz_pore[same_ev_pore]
+			    mdy_pore_extract = mdy_pore[same_ev_pore]
+			    mdx_pore_extract = mdx_pore[same_ev_pore]
+			    z_pore_extract = z_pore[same_ev_pore]
+			    y_pore_extract = y_pore[same_ev_pore]
+			    x_pore_extract = x_pore[same_ev_pore]
+			else:
+				print "Proton leakage!"
+			
+			for jsame in xrange(len(ene_exit_extract)):
+				if (ene_exit_extract[jsame] == ene_sphere_extract):
+				    if (mdz_exit_extract[jsame] == mdz_sphere_extract):
+				        if (mdy_exit_extract[jsame] == mdy_sphere_extract):
+				            if (mdx_exit_extract[jsame] == mdx_sphere_extract):
+				                 vecEventIDOut.append(evt_id_sphere[jev_sphere])
+				                 vecEnergyOut.append(ene_sphere_extract)
+				                 vecMDXOut.append(mdx_sphere_extract)
+				                 vecMDYOut.append(mdy_sphere_extract)
+				                 vecMDZOut.append(mdz_sphere_extract)
+				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract))
+				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
+				                 if (len(same_ev_pore)):
+				                     xlist = [x_ent_extract.tolist(), x_pore_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
+				                     ylist = [y_ent_extract.tolist(), y_pore_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
+				                     zlist = [z_ent_extract.tolist(), z_pore_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+				                     for jxyz in xrange(len(xlist)):
+				                        elx = xlist[jxyz]
+				                        ely = ylist[jxyz]
+				                        elz = zlist[jxyz]
+				                        for jel in xrange(len(elx)):
+				                           vecEventXYZ.append(evt_id_sphere[jev_sphere])
+				                     	   vecX.append(elx[jel])
+				                     	   vecY.append(ely[jel])
+				                     	   vecZ.append(elz[jel])
+				                    #vecX.append([x_ent_extract, x_pore_extract, x_exit_extract, x_sphere_extract])
+				                    #vecY.append([y_ent_extract, y_pore_extract, y_exit_extract, y_sphere_extract])
+				                    #vecZ.append([z_ent_extract, z_pore_extract, z_exit_extract, z_sphere_extract])
+				                 else:
+				                     xlist = [x_ent_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
+				                     ylist = [y_ent_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
+				                     zlist = [z_ent_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+				                     for jxyz in xrange(len(xlist)):
+				                        elx = xlist[jxyz]
+				                        for jel in xrange(len(elx)):
+				                     	   vecEventXYZ.append(evt_id_sphere[jev_sphere])
+				                           vecX.append(elx[jel])
+				                     	   vecY.append(elx[jel])
+				                     	   vecZ.append(elx[jel])
+				                     
+				                     #vecX.append([x_ent_extract, x_exit_extract, x_sphere_extract])
+				                     #vecY.append([y_ent_extract, y_exit_extract, y_sphere_extract])
+				                     #vecZ.append([z_ent_extract, z_exit_extract, z_sphere_extract])
 		
-		len_same_ev_pore = len(same_ev_pore)
-		last_evt_id = same_ev_pore[len_same_ev_pore - 1]
-		if (last_evt_id < (len(evt_id_pore)-1)):
-			jev_pore = same_ev_pore[len_same_ev_pore - 1] + 1
+		len_same_ev = len(same_ev)
+		last_evt_id = same_ev[len_same_ev - 1]
+		if (last_evt_id < (len(evt_id_sphere)-1)):
+			jev_sphere = same_ev[len_same_ev - 1] + 1
 		else:
 			break
 
-print "vecEventIDOut", vecEventIDOut
     		    		
 N_out = len(vecEnergyOut)
 
@@ -160,18 +251,32 @@ N_out = len(vecEnergyOut)
 print "Real number of protons entering the pore = ", N_in_real
 print "Exiting protons/entering protons = ", float(N_out)/float(N_in_real)
 
-
+path_simoutput = './simulation_output'
+if not os.path.exists(path_simoutput):
+	os.makedirs(path_simoutput)
 
 # Write output to file
-name_fileout = "./simulation_output/OUTPUT_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".dat"
+name_fileout = path_simoutput+"/OUTPUT_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".dat"
 print "Writing in "+name_fileout
 f_out = open(name_fileout, 'wb')
 f_out.write("# N_in: "+str(N_in_real)+" \n")
 f_out.write("# Exiting protons/entering protons: "+str(float(N_out)/float(N_in_real))+" \n")
-f_out.write("# EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] \n")
+f_out.write("# EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] N_out N_in_real \n")
 for iel in xrange(len(vecEventIDOut)):
 	# angle_x err_angle_x Eff err_Eff N_out N_in solid_angle 
-	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+"\n")
+	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+" "+str(N_out)+" "+str(N_in_real)+"\n")
+
+# Write positions to FITS file
+name_fileout = path_simoutput+"/XYZ_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".fits.gz"
+print "Writing in "+name_fileout
+xyz_col1 = fits.Column(name='EVENT_ID', format='1J', array=vecEventXYZ)
+xyz_col2 = fits.Column(name='X', format='1D', array=vecX)
+xyz_col3 = fits.Column(name='Y', format='1D', array=vecY)
+xyz_col4 = fits.Column(name='Z', format='1D', array=vecZ)
+
+xyz_cols = fits.ColDefs([xyz_col1, xyz_col2, xyz_col3, xyz_col4])
+xyz_tbhdu = fits.BinTableHDU.from_columns(xyz_cols)
+xyz_tbhdu.writeto(name_fileout, clobber=1)
 
 
 

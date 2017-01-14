@@ -71,6 +71,7 @@ vecEventXYZ = []
 vecX = []
 vecY = []
 vecZ = []
+nScatt = []
 
 for jfits in xrange(N_fits):
     
@@ -210,6 +211,7 @@ for jfits in xrange(N_fits):
 				                     xlist = [x_ent_extract.tolist(), x_pore_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
 				                     ylist = [y_ent_extract.tolist(), y_pore_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
 				                     zlist = [z_ent_extract.tolist(), z_pore_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+				                     nScatt.append(len(x_pore_extract))
 				                     for jxyz in xrange(len(xlist)):
 				                        elx = xlist[jxyz]
 				                        ely = ylist[jxyz]
@@ -219,10 +221,13 @@ for jfits in xrange(N_fits):
 				                     	   vecX.append(elx[jel])
 				                     	   vecY.append(ely[jel])
 				                     	   vecZ.append(elz[jel])
+				                     
+				                        
 				                 else:
 				                     xlist = [x_ent_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
 				                     ylist = [y_ent_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
 				                     zlist = [z_ent_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+				                     nScatt.append(0)
 				                     for jxyz in xrange(len(xlist)):
 				                        elx = xlist[jxyz]
 				                        for jel in xrange(len(elx)):
@@ -255,10 +260,10 @@ print "Writing in "+name_fileout
 f_out = open(name_fileout, 'wb')
 f_out.write("# N_in: "+str(N_in_real)+" \n")
 f_out.write("# Exiting protons/entering protons: "+str(float(N_out)/float(N_in_real))+" \n")
-f_out.write("# EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] N_out N_in_real \n")
+f_out.write("# EventID Energy[keV] MDX MDY MDZ Theta[deg] Phi[deg] nScatterings N_out N_in_real \n")
 for iel in xrange(len(vecEventIDOut)):
 	# angle_x err_angle_x Eff err_Eff N_out N_in solid_angle 
-	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+" "+str(N_out)+" "+str(N_in_real)+"\n")
+	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+" "+str(nScatt[iel])+" "+str(N_out)+" "+str(N_in_real)+"\n")
 
 # Write positions to FITS file
 name_fileout = path_simoutput+"/XYZ_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".fits.gz"

@@ -147,101 +147,103 @@ for jfits in xrange(N_fits):
     y_exit = Y_exit[where_exit]
     x_exit = X_exit[where_exit]
 
-    jev_sphere = 0
-    while (1):
-		same_ev = np.where(evt_id_sphere == evt_id_sphere[jev_sphere])
-		same_ev_ent = np.where(evt_id_ent == evt_id_sphere[jev_sphere])
-		same_ev_exit = np.where(evt_id_exit == evt_id_sphere[jev_sphere])
-		same_ev_pore = np.where(evt_id_pore == evt_id_sphere[jev_sphere])
+    if (where_sphere[0].size):
+		jev_sphere = 0
+		while (1):
+			same_ev = np.where(evt_id_sphere == evt_id_sphere[jev_sphere])
+			same_ev_ent = np.where(evt_id_ent == evt_id_sphere[jev_sphere])
+			same_ev_exit = np.where(evt_id_exit == evt_id_sphere[jev_sphere])
+			same_ev_pore = np.where(evt_id_pore == evt_id_sphere[jev_sphere])
 		
-		same_ev = same_ev[0]
-		same_ev_ent = same_ev_ent[0]
-		same_ev_exit = same_ev_exit[0]
-		same_ev_pore = same_ev_pore[0]
+			same_ev = same_ev[0]
+			same_ev_ent = same_ev_ent[0]
+			same_ev_exit = same_ev_exit[0]
+			same_ev_pore = same_ev_pore[0]
 		
-		if (same_ev_ent) and (same_ev_exit):
-			ene_ent_extract = ene_ent[same_ev_ent]
-			mdz_ent_extract = mdz_ent[same_ev_ent]
-			mdy_ent_extract = mdy_ent[same_ev_ent]
-			mdx_ent_extract = mdx_ent[same_ev_ent]
-			z_ent_extract = z_ent[same_ev_ent]
-			y_ent_extract = y_ent[same_ev_ent]
-			x_ent_extract = x_ent[same_ev_ent]
+			if (same_ev_ent) and (same_ev_exit):
+				ene_ent_extract = ene_ent[same_ev_ent]
+				mdz_ent_extract = mdz_ent[same_ev_ent]
+				mdy_ent_extract = mdy_ent[same_ev_ent]
+				mdx_ent_extract = mdx_ent[same_ev_ent]
+				z_ent_extract = z_ent[same_ev_ent]
+				y_ent_extract = y_ent[same_ev_ent]
+				x_ent_extract = x_ent[same_ev_ent]
 
-			ene_exit_extract = ene_exit[same_ev_exit]
-			mdz_exit_extract = mdz_exit[same_ev_exit]
-			mdy_exit_extract = mdy_exit[same_ev_exit]
-			mdx_exit_extract = mdx_exit[same_ev_exit]
-			z_exit_extract = z_exit[same_ev_exit]
-			y_exit_extract = y_exit[same_ev_exit]
-			x_exit_extract = x_exit[same_ev_exit]
+				ene_exit_extract = ene_exit[same_ev_exit]
+				mdz_exit_extract = mdz_exit[same_ev_exit]
+				mdy_exit_extract = mdy_exit[same_ev_exit]
+				mdx_exit_extract = mdx_exit[same_ev_exit]
+				z_exit_extract = z_exit[same_ev_exit]
+				y_exit_extract = y_exit[same_ev_exit]
+				x_exit_extract = x_exit[same_ev_exit]
 					
-			ene_sphere_extract = ene_sphere[jev_sphere]
-			mdz_sphere_extract = mdz_sphere[jev_sphere]
-			mdy_sphere_extract = mdy_sphere[jev_sphere]
-			mdx_sphere_extract = mdx_sphere[jev_sphere] 
-			z_sphere_extract = z_sphere[jev_sphere]
-			y_sphere_extract = y_sphere[jev_sphere]
-			x_sphere_extract = x_sphere[jev_sphere] 
+				ene_sphere_extract = ene_sphere[jev_sphere]
+				mdz_sphere_extract = mdz_sphere[jev_sphere]
+				mdy_sphere_extract = mdy_sphere[jev_sphere]
+				mdx_sphere_extract = mdx_sphere[jev_sphere] 
+				z_sphere_extract = z_sphere[jev_sphere]
+				y_sphere_extract = y_sphere[jev_sphere]
+				x_sphere_extract = x_sphere[jev_sphere] 
 			
-			if (len(same_ev_pore)):
-			    ene_pore_extract = ene_pore[same_ev_pore]
-			    mdz_pore_extract = mdz_pore[same_ev_pore]
-			    mdy_pore_extract = mdy_pore[same_ev_pore]
-			    mdx_pore_extract = mdx_pore[same_ev_pore]
-			    z_pore_extract = z_pore[same_ev_pore]
-			    y_pore_extract = y_pore[same_ev_pore]
-			    x_pore_extract = x_pore[same_ev_pore]
-			else:
-				print "Proton leakage!"
+				if (len(same_ev_pore)):
+					ene_pore_extract = ene_pore[same_ev_pore]
+					mdz_pore_extract = mdz_pore[same_ev_pore]
+					mdy_pore_extract = mdy_pore[same_ev_pore]
+					mdx_pore_extract = mdx_pore[same_ev_pore]
+					z_pore_extract = z_pore[same_ev_pore]
+					y_pore_extract = y_pore[same_ev_pore]
+					x_pore_extract = x_pore[same_ev_pore]
+				else:
+					print "Proton leakage!"
 			
-			for jsame in xrange(len(ene_exit_extract)):
-				if (ene_exit_extract[jsame] == ene_sphere_extract):
-				    if (mdz_exit_extract[jsame] == mdz_sphere_extract):
-				        if (mdy_exit_extract[jsame] == mdy_sphere_extract):
-				            if (mdx_exit_extract[jsame] == mdx_sphere_extract):
-				                 vecEventIDOut.append(evt_id_sphere[jev_sphere])
-				                 vecEnergyOut.append(ene_sphere_extract)
-				                 vecMDXOut.append(mdx_sphere_extract)
-				                 vecMDYOut.append(mdy_sphere_extract)
-				                 vecMDZOut.append(mdz_sphere_extract)
-				                 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract))
-				                 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
-				                 if (len(same_ev_pore)):
-				                     xlist = [x_ent_extract.tolist(), x_pore_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
-				                     ylist = [y_ent_extract.tolist(), y_pore_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
-				                     zlist = [z_ent_extract.tolist(), z_pore_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
-				                     nScatt.append(len(x_pore_extract))
-				                     for jxyz in xrange(len(xlist)):
-				                        elx = xlist[jxyz]
-				                        ely = ylist[jxyz]
-				                        elz = zlist[jxyz]
-				                        for jel in xrange(len(elx)):
-				                           vecEventXYZ.append(evt_id_sphere[jev_sphere])
-				                     	   vecX.append(elx[jel])
-				                     	   vecY.append(ely[jel])
-				                     	   vecZ.append(elz[jel])
-				                     
-				                        
-				                 else:
-				                     xlist = [x_ent_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
-				                     ylist = [y_ent_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
-				                     zlist = [z_ent_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
-				                     nScatt.append(0)
-				                     for jxyz in xrange(len(xlist)):
-				                        elx = xlist[jxyz]
-				                        for jel in xrange(len(elx)):
-				                     	   vecEventXYZ.append(evt_id_sphere[jev_sphere])
-				                           vecX.append(elx[jel])
-				                     	   vecY.append(elx[jel])
-				                     	   vecZ.append(elx[jel])
+				for jsame in xrange(len(ene_exit_extract)):
+					if (ene_exit_extract[jsame] == ene_sphere_extract):
+						if (mdz_exit_extract[jsame] == mdz_sphere_extract):
+							if (mdy_exit_extract[jsame] == mdy_sphere_extract):
+								if (mdx_exit_extract[jsame] == mdx_sphere_extract):
+									 vecEventIDOut.append(evt_id_sphere[jev_sphere])
+									 vecEnergyOut.append(ene_sphere_extract)
+									 vecMDXOut.append(mdx_sphere_extract)
+									 vecMDYOut.append(mdy_sphere_extract)
+									 vecMDZOut.append(mdz_sphere_extract)
+									 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract))
+									 vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
+									 if (len(same_ev_pore)):
+										 xlist = [x_ent_extract.tolist(), x_pore_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
+										 ylist = [y_ent_extract.tolist(), y_pore_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
+										 zlist = [z_ent_extract.tolist(), z_pore_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+										 nScatt.append(len(x_pore_extract))
+										 for jxyz in xrange(len(xlist)):
+											elx = xlist[jxyz]
+											ely = ylist[jxyz]
+											elz = zlist[jxyz]
+											for jel in xrange(len(elx)):
+											   vecEventXYZ.append(evt_id_sphere[jev_sphere])
+											   vecX.append(elx[jel])
+											   vecY.append(ely[jel])
+											   vecZ.append(elz[jel])
+									 
+										
+									 else:
+										 xlist = [x_ent_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]
+										 ylist = [y_ent_extract.tolist(), y_exit_extract.tolist(), [y_sphere_extract]]
+										 zlist = [z_ent_extract.tolist(), z_exit_extract.tolist(), [z_sphere_extract]]
+										 nScatt.append(0)
+										 for jxyz in xrange(len(xlist)):
+											elx = xlist[jxyz]
+											for jel in xrange(len(elx)):
+											   vecEventXYZ.append(evt_id_sphere[jev_sphere])
+											   vecX.append(elx[jel])
+											   vecY.append(elx[jel])
+											   vecZ.append(elx[jel])
 		
-		len_same_ev = len(same_ev)
-		last_evt_id = same_ev[len_same_ev - 1]
-		if (last_evt_id < (len(evt_id_sphere)-1)):
-			jev_sphere = same_ev[len_same_ev - 1] + 1
-		else:
-			break
+			len_same_ev = len(same_ev)
+			last_evt_id = same_ev[len_same_ev - 1]
+			if (last_evt_id < (len(evt_id_sphere)-1)):
+				jev_sphere = same_ev[len_same_ev - 1] + 1
+			else:
+				break
+    
 
     		    		
 N_out = len(vecEnergyOut)

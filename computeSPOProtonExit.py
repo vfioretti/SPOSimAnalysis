@@ -170,9 +170,22 @@ for jfits in xrange(N_fits):
 				x_ent_extract = x_ent[same_ev_ent]
 
 				ene_exit_extract = ene_exit[same_ev_exit]
+				mdz_ent_extract = mdz_exit[same_ev_exit]
+				mdy_ent_extract = mdy_exit[same_ev_exit]
+				mdx_ent_extract = mdx_exit[same_ev_exit]
 				mdz_exit_extract = mdz_exit[same_ev_exit]
 				mdy_exit_extract = mdy_exit[same_ev_exit]
 				mdx_exit_extract = mdx_exit[same_ev_exit]
+				for jmd in xrange(len(mdz_ent_extract)):
+				    if (mdz_ent_extract[jmd] != mdz_exit_extract[jmd]): 
+				       print "Remizovich in the exit dummy volume (MDZ)! - EventID = "+str(evt_id_sphere[jev_sphere])
+				    else:
+				       if (mdy_ent_extract[jmd] != mdy_exit_extract[jmd]):
+				          print "Remizovich in the exit dummy volume (MDY)! - EventID = "+str(evt_id_sphere[jev_sphere])
+				       else:
+				          if (mdx_ent_extract[jmd] != mdx_exit_extract[jmd]):
+				              print "Remizovich in the exit dummy volume (MDX)! - EventID = "+str(evt_id_sphere[jev_sphere])
+				
 				z_exit_extract = z_exit[same_ev_exit]
 				y_exit_extract = y_exit[same_ev_exit]
 				x_exit_extract = x_exit[same_ev_exit]
@@ -194,7 +207,7 @@ for jfits in xrange(N_fits):
 					y_pore_extract = y_pore[same_ev_pore]
 					x_pore_extract = x_pore[same_ev_pore]
 				else:
-					print "Proton leakage!"
+					print "Proton leakage at EventID "+str(evt_id_sphere[jev_sphere])+"!"
 			
 				for jsame in xrange(len(ene_exit_extract)):
 					if (ene_exit_extract[jsame] == ene_sphere_extract):

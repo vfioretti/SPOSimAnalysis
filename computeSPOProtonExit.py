@@ -221,13 +221,13 @@ for jfits in xrange(N_fits):
 									 vecMDZOut.append(mdz_sphere_extract)
 									 vecThetaOut.append((180./np.pi)*np.arccos(-mdz_sphere_extract))
 									 if ((mdx_sphere_extract >= 0.) & (mdy_sphere_extract >= 0.)): 
-									     vecPhiOut.append(-((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract) + 90.))
+									     vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract)) - 180.)
 									 if ((mdx_sphere_extract < 0.) & (mdy_sphere_extract >= 0.)): 
 									     vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
 									 if ((mdx_sphere_extract < 0.) & (mdy_sphere_extract < 0.)): 
 									     vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract))
 									 if ((mdx_sphere_extract >= 0.) & (mdy_sphere_extract < 0.)): 
-									     vecPhiOut.append(-((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract) - 90.))
+									     vecPhiOut.append((180./np.pi)*np.arctan(mdy_sphere_extract/mdx_sphere_extract) + 180.))
 
 									 if (len(same_ev_pore)):
 										 xlist = [x_ent_extract.tolist(), x_pore_extract.tolist(), x_exit_extract.tolist(), [x_sphere_extract]]

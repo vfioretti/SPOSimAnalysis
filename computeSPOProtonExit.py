@@ -7,7 +7,7 @@
  email                : fioretti@iasfbo.inaf.it
  ----------------------------------------------
  Usage:
- python computeSPOProtonExit filedir N_file N_in theta_0 angle_dis energy_0 model
+ python computeSPOProtonExit filedir N_file N_in theta_0 angle_dis energy_0 model subname
  ---------------------------------------------------------------------------------
  Parameters:
  - filedir = input path (string)
@@ -18,6 +18,7 @@
  - energy_0 = incoming energy
  - angle_bin = bin angle
  - model = scattering model
+ - subname = name flag added at the end of the file
  --------------------------------------------------------------------------------
  Caveats:
  None
@@ -47,6 +48,7 @@ if (angle_dis == 1): disname = "cos"
 energy_0 = float(arg_list[6])
 
 model = arg_list[7]
+subname = arg_list[8]
 
 HPlate_vol_id_min = 0 
 HPlate_vol_id_max = 3 
@@ -278,7 +280,7 @@ if not os.path.exists(path_simoutput):
 	os.makedirs(path_simoutput)
 
 # Write output to file
-name_fileout = path_simoutput+"/OUTPUT_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".dat"
+name_fileout = path_simoutput+"/OUTPUT_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+"_"+subname+".dat"
 print "Writing in "+name_fileout
 f_out = open(name_fileout, 'wb')
 f_out.write("# N_in: "+str(N_in_real)+" \n")
@@ -289,7 +291,7 @@ for iel in xrange(len(vecEventIDOut)):
 	f_out.write(str(vecEventIDOut[iel])+" "+str(vecEnergyOut[iel])+" "+str(vecMDXOut[iel])+" "+str(vecMDYOut[iel])+" "+str(vecMDZOut[iel])+" "+str(vecThetaOut[iel])+" "+str(vecPhiOut[iel])+" "+str(nScatt[iel])+" "+str(N_out)+" "+str(N_in_real)+"\n")
 
 # Write positions to FITS file
-name_fileout = path_simoutput+"/XYZ_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+".fits.gz"
+name_fileout = path_simoutput+"/XYZ_"+str(int(energy_0))+"keV_"+disname+str(theta_0)+"deg_"+str(N_in)+"_"+model+"_"+subname+".fits.gz"
 print "Writing in "+name_fileout
 xyz_col1 = fits.Column(name='EVENT_ID', format='1J', array=vecEventXYZ)
 xyz_col2 = fits.Column(name='X', format='1D', array=vecX)
